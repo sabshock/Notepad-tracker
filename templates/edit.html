@@ -1,0 +1,51 @@
+{% extends 'base.html'%} 
+
+{% block body%}
+{% for mg in get_flashed_messages() %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{mg}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>        
+{% endfor%}
+{% if method == 'GET' %}
+<h4>{{title}}<br/>msg = {{msg}}</h4>
+<div class="container mt-5 mb-5 px-10 ">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form method="POST" action="/editnote/{{title}}">
+                <div class="form-group">
+                    {{form.hidden_tag()}}
+                    {{form.Desc.label(class='form-label')}}
+                    {{form.Desc(class='form-control',value = msg)}}
+                    <small id="description" class="form-text text-muted"
+                        >E.g: I had complete English Breakfast.</small
+                    >
+                </div>
+                {{form.edit(class = 'btn btn-primary')}}
+            </form>
+        </div>
+    </div>
+</div>
+{% else %}
+<h4>{{title}}<br/>{{msg}} else block</h4>
+<div class="container mt-5 mb-5 px-10 ">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form method="POST" action="/editnote/{{title}}">
+                <div class="form-group">
+                    {{form.hidden_tag()}}
+                    {{form.Desc.label(class='form-label')}}
+                    {{form.Desc(class='form-control',value = msg)}}
+                    <small id="description" class="form-text text-muted"
+                        >E.g: I had complete English Breakfast.</small
+                    >
+                </div>
+                {{form.edit(class = 'btn btn-primary')}}
+            </form>
+        </div>
+    </div>
+</div>
+
+{%endif%}
+
+{%endblock%}

@@ -1,0 +1,40 @@
+{% extends 'base.html'%} 
+
+{% block body%}
+{% for mg in get_flashed_messages() %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{mg}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>        
+{% endfor%}
+<br/>
+<br/>
+{% if data == 'Empty' %}
+<div class="well text-center">
+    <h3>There are no Notes Avaliable</h3>
+</div>
+<div class="container text-center">
+    <div class="row">
+      <div class="col">
+        <a href = "{{url_for('addnote')}}" type="button" class="btn btn-outline-primary">Add Note</a>
+      </div>
+  </div>
+{% else %}
+<table class="table table-hover table-bordered">
+    <thead>
+        <h3>Notes</h3>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+    </thead>
+    <tbody class="table-group-divider">
+          {% for d in data %}
+          <tr>
+            <td><a href="{{url_for('editnote',title = d)}}">{{d}}</a></td>
+            <td>{{data[d]}}</td>
+          </tr>
+          {% endfor %}
+    </tbody>
+  </table>
+  <br/><br/>
+{% endif%}
+  {% endblock %}

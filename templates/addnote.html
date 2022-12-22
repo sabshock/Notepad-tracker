@@ -1,0 +1,76 @@
+{% extends 'base.html'%} 
+
+{% block body%}
+{% for msg in get_flashed_messages() %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{msg}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>        
+{% endfor%}
+{% if not notes%}
+<div class="container mt-5 mb-5 px-10 ">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form method="POST" action="{{url_for('addnote')}}">
+                <div class="form-group">
+                    {{form.hidden_tag()}}
+                    {{form.title.label(class='form-label')}}
+                    {{form.title(class='form-control',placeholder="Title")}}
+                    <small id="noteTitle" class="form-text text-muted"
+                        >E.g Breakfast</small
+                    >
+                </div>
+                <div class="form-group">
+                    {{form.Desc.label(class='form-label')}}
+                    {{form.Desc(class='form-control',placeholder="Description of the note")}}
+                    <small id="description" class="form-text text-muted"
+                        >E.g: I had complete English Breakfast.</small
+                    >
+                </div>
+                {{form.add(class = 'btn btn-primary')}}
+            </form>
+        </div>
+    </div>
+</div>
+{%else%}
+<div class="container mt-5 mb-5 px-10 ">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form method="POST" action="{{url_for('addnote')}}">
+                <div class="form-group">
+                    {{form.hidden_tag()}}
+                    {{form.title.label(class='form-label')}}
+                    {{form.title(class='form-control',placeholder="Title")}}
+                    <small id="noteTitle" class="form-text text-muted"
+                        >E.g Breakfast</small
+                    >
+                </div>
+                <div class="form-group">
+                    {{form.Desc.label(class='form-label')}}
+                    {{form.Desc(class='form-control',placeholder="Description of the note")}}
+                    <small id="description" class="form-text text-muted"
+                        >E.g: I had complete English Breakfast.</small
+                    >
+                </div>
+                {{form.add(class = 'btn btn-primary')}}
+            </form>
+        </div>
+    </div>
+</div>
+<br/><br/>
+<h3>Avaliable Notes</h3>
+<table class="table table-hover table-bordered">
+    <thead>
+        <h3>Notes</h3>
+            <th scope="col">Title</th>
+    </thead>
+    <tbody class="table-group-divider">
+          {% for d in notes %}
+          <tr>
+            <td>{{d}}</td>
+          </tr>
+          {% endfor %}
+    </tbody>
+  </table>
+{%endif%}
+{% endblock%}
