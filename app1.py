@@ -118,6 +118,7 @@ def deletenote():
             flash(f"The note {note_to_delete} does not exits ")
             return render_template('deletenote.html',form = form,notes = notes)
     else:
+        form.title.data = ''
         return render_template('deletenote.html',form = form,notes = notes)
 
 if __name__ == '__main__':
