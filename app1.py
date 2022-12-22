@@ -20,7 +20,7 @@ def homepage():
         data = {}
         for note in notes:
             n = open(f"{path}/{note}",'r')
-            data.update({note.strip('.txt'):n.read()}) 
+            data.update({note.replace('.txt',''):n.read()}) 
             n.close()
         return render_template('homepage.html',data = data)
 
@@ -38,7 +38,7 @@ def addnote():
     if notes:
         t = []
         for n in notes:
-            t.append(n.strip('.txt'))
+            t.append(n.replace('.txt',''))
         notes = t
     else:
         pass
@@ -53,7 +53,7 @@ def addnote():
             form.Desc.data = ''
             notes.append(title_to_add)
             repo = Repo(git_path)
-            repo.git.add('--all')
+            repo.git.add('.')
             repo.git.commit('-m', f'added note {title_to_add}')
 
             flash(F"Note {title_to_add} added Successfully")
@@ -80,7 +80,7 @@ def editnote(title):
         note.write(Desc_to_edit)
         note.close()
         repo = Repo(git_path)
-        repo.git.add('--all')
+        repo.git.add('.')
         repo.git.commit('-m', f'edited the note {title}')
 
         flash(F"Note {title} Edited Successfully")
