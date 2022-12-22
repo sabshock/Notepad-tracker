@@ -2,7 +2,6 @@ from flask import Flask,request,render_template,url_for,flash,redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField,EmailField,IntegerField
 from wtforms.validators import DataRequired,email_validator
-
 from git import Repo
 import os
 
@@ -86,9 +85,39 @@ def editnote(title):
         flash(F"Note {title} Edited Successfully")
         return redirect('/')
     else:
-        return render_template('edit.html',form = form, msg = msg ,method = 'GET',title = title)
+        return render_template('edit.html',form = form, msg = msg,title = title)
 
+class deleteform(FlaskForm):
+    title = StringField('Title',validators=[DataRequired()])
+    delete = SubmitField('Delete Note')
 
+@app1.route('/deletenote',methods=['GET','POST'])
+def deletenote():
+    form = deleteform()
+    notes = list(os.walk(path))[0][2]
+    if notes:
+        t = []
+        for n in notes:
+            t.append(n.replace('.txt',''))
+        notes = t
+    else:
+        pass
+    #note_to_delete = 
+    if request.method == 'POST':
+        note_to_delete = request.form['title']
+        try:
+            os.remove(path+'/'+note_to_delete+'.txt')
+            repo = Repo(git_path)
+            repo.git.add('.')
+            repo.git.commit('-m', f'Deleted the note {note_to_delete}')
+            flash(f"The note {note_to_delete} was Deleted Successfully")
+            form.title.data = ''
+            return render_template('deletenote.html',form=form, notes = notes)
+        except:
+            flash(f"The note {note_to_delete} does not exits ")
+            return render_template('deletenote.html',form = form,notes = notes)
+    else:
+        return render_template('deletenote.html',form = form,notes = notes)
 
 if __name__ == '__main__':
     app1.run(debug=True)
