@@ -110,6 +110,7 @@ def deletenote():
             repo = Repo(git_path)
             repo.git.add('.')
             repo.git.commit('-m', f'Deleted the note {note_to_delete}')
+            notes.pop(note_to_delete)
             flash(f"The note {note_to_delete} was Deleted Successfully")
             form.title.data = ''
             return render_template('deletenote.html',form=form, notes = notes)
