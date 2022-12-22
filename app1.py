@@ -9,6 +9,7 @@ import os
 app1 = Flask(__name__)
 app1.config['SECRET_KEY'] = 'MY secret key' # to use forms we need secret key
 path = "C:/Users/DataGrokr/Desktop/DG_intern_Assignmenst/python_assignments/notepad+extraction/notepad-tracker-main/notes"
+git_path = "C:/Users/DataGrokr/Desktop/DG_intern_Assignmenst/python_assignments/notepad+extraction/notepad-tracker-main/"
 @app1.route('/')
 def homepage():
 
@@ -51,9 +52,9 @@ def addnote():
             form.title.data = ''
             form.Desc.data = ''
             notes.append(title_to_add)
-            repo = Repo(path)
+            repo = Repo(git_path)
             repo.git.add('--all')
-            repo.git.commit('-m', 'commit message from python script')
+            repo.git.commit('-m', f'added note {title_to_add}')
 
             flash(F"Note {title_to_add} added Successfully")
             return render_template('addnote.html',form = form,notes = notes)
@@ -78,9 +79,9 @@ def editnote(title):
         Desc_to_edit = request.form['Desc']
         note.write(Desc_to_edit)
         note.close()
-        repo = Repo(path)
+        repo = Repo(git_path)
         repo.git.add('--all')
-        repo.git.commit('-m', 'commit message from python script')
+        repo.git.commit('-m', f'edited the note {title}')
 
         flash(F"Note {title} Edited Successfully")
         return redirect('/')
