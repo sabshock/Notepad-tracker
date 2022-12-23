@@ -82,7 +82,7 @@ def editnote(title):
         repo.git.add('.')
         repo.git.commit('-m', f'edited the note {title}')
 
-        flash(F"Note {title} Edited Successfully")
+        flash(F"Note {title} was edited Successfully")
         return redirect('/')
     else:
         return render_template('edit.html',form = form, msg = msg,title = title)
